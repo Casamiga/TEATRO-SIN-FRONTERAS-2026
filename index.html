@@ -39,18 +39,91 @@
             align-items: flex-start;
         }
 
+        /* НОВЫЙ СЛАЙД 1 - по картинке */
         .slide-1 { 
-            background: linear-gradient(135deg, rgba(30,58,95,0.95) 0%, rgba(44,82,130,0.95) 100%); 
+            background: linear-gradient(to right, #0091DA 0%, #00A8E8 100%);
             color: white; 
-            text-align: center; 
-            align-items: center; 
+            padding: 0 !important;
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            justify-content: space-between;
         }
-        .logo-row { display: flex; justify-content: center; align-items: center; gap: 30px; margin-bottom: 40px; }
-        .slide-1 h1 { font-size: 64px; font-weight: bold; margin-bottom: 20px; letter-spacing: 3px; }
-        .slide-1 .subtitle { font-size: 32px; font-weight: 300; margin-bottom: 50px; font-style: italic; }
-        .slide-1 .festival-info { font-size: 20px; margin: 10px 0; }
-        .slide-1 .tagline { font-size: 22px; font-style: italic; margin-top: 40px; opacity: 0.9; }
 
+        /* Левая часть - ШТОРА */
+        .slide-1-left { 
+            flex: 0 0 25%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .curtain-image { 
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Центральная часть - ТЕКСТ */
+        .slide-1-center { 
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 60px 40px;
+        }
+
+        .slide-1-center h1 { 
+            font-size: 60px; 
+            font-weight: bold; 
+            margin-bottom: 15px; 
+            letter-spacing: 2px;
+            line-height: 1.1;
+        }
+
+        .slide-1-center .subtitle { 
+            font-size: 28px; 
+            font-weight: 300; 
+            margin-bottom: 40px; 
+            font-style: italic;
+            max-width: 600px;
+        }
+
+        .slide-1-center .festival-info { 
+            font-size: 18px; 
+            margin: 8px 0;
+            line-height: 1.4;
+        }
+
+        .slide-1-center .tagline { 
+            font-size: 20px; 
+            font-style: italic; 
+            margin-top: 35px; 
+            opacity: 0.95;
+        }
+
+        /* Правая часть - КРУГЛОЕ ЛОГО */
+        .slide-1-right { 
+            flex: 0 0 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .logo-circle { 
+            width: 90%;
+            height: 90%;
+            max-width: 500px;
+            max-height: 500px;
+            object-fit: contain;
+            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.25));
+        }
+
+        /* ОСТАЛЬНЫЕ СЛАЙДЫ - неизменяемые */
         .slide-with-image { 
             display: flex; 
             align-items: stretch; 
@@ -72,7 +145,6 @@
             height: 100vh;
         }
 
-        /* ФОТО - фон для пустых слайдов */
         .slide-image-half { 
             flex: 1; 
             height: 100vh;
@@ -212,6 +284,33 @@
 
         @media (max-width: 768px) {
             html, body { overflow: auto; }
+
+            .slide-1 { 
+                flex-direction: column;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .slide-1-left { 
+                flex: 0 0 30%;
+                min-height: 200px;
+            }
+
+            .slide-1-center { 
+                flex: 1;
+                padding: 40px 30px;
+                align-items: center;
+                text-align: center;
+            }
+
+            .slide-1-right { 
+                flex: 0 0 35%;
+                min-height: 250px;
+            }
+
+            .slide-1-center h1 { font-size: 36px !important; }
+            .slide-1-center .subtitle { font-size: 20px !important; }
+
             .slide { 
                 height: auto; 
                 min-height: 100vh; 
@@ -236,7 +335,6 @@
                 min-height: 300px;
                 width: 100%;
             }
-            .slide-1 h1 { font-size: 36px !important; }
             h2 { font-size: 32px !important; }
             .awards-grid, .organizers-grid { grid-template-columns: 1fr; }
             .nav-buttons { bottom: 15px; padding: 10px 15px; }
@@ -248,22 +346,34 @@
 <body>
     <div class="slide-counter"><span id="current-slide">1</span> / <span id="total-slides">11</span></div>
 
+    <!-- НОВЫЙ СЛАЙД 1 -->
     <div class="slide-container active">
         <div class="slide slide-1">
-            <div class="logo-row">
-                <div style="background: white; padding: 15px 30px; border-radius: 8px; font-size: 24px; font-weight: bold; color: #0EA5E9;">🎭 CASAMIGA TEATRO</div>
+            <!-- ЛЕВАЯ ЧАСТЬ - ШТОРА -->
+            <div class="slide-1-left">
+                <img src="images/stora.png" alt="Штора" class="curtain-image">
             </div>
-            <h1>TEATRO SIN FRONTERAS</h1>
-            <p class="subtitle">Uniendo el mundo a través del teatro</p>
-            <div class="festival-info">
-                <p style="font-style: italic; font-size: 24px;">Festival Internacional de Teatro Infantil</p>
-                <p style="margin-top: 20px;">📅 1 de marzo de 2026</p>
-                <p>Teatro Municipal de Lloret de Mar, España</p>
+
+            <!-- ЦЕНТРАЛЬНАЯ ЧАСТЬ - ТЕКСТ -->
+            <div class="slide-1-center">
+                <h1>Teatro Sin Fronteras</h1>
+                <p class="subtitle">Uniendo el mundo a través del teatro</p>
+                <div class="festival-info">
+                    <p style="font-style: italic; font-size: 20px;">Festival Internacional de Teatro Infantil</p>
+                    <p style="margin-top: 15px;">📅 1 de marzo de 2026</p>
+                    <p>Teatro Municipal de Lloret de Mar, España</p>
+                </div>
+                <p class="tagline">Vuestro grupo en el escenario internacional de Europa</p>
             </div>
-            <p class="tagline">Vuestro grupo en el escenario internacional de Europa</p>
+
+            <!-- ПРАВАЯ ЧАСТЬ - КРУГЛОЕ ЛОГО -->
+            <div class="slide-1-right">
+                <img src="images/logo_theatr.png" alt="Logo Teatro Sin Fronteras" class="logo-circle">
+            </div>
         </div>
     </div>
 
+    <!-- СЛАЙД 2 -->
     <div class="slide-container">
         <div class="slide slide-2 slide-with-image text-left">
             <div class="slide-content">
@@ -284,6 +394,7 @@
         </div>
     </div>
 
+    <!-- СЛАЙД 3 -->
     <div class="slide-container">
         <div class="slide slide-3 slide-with-image text-right">
             <div class="slide-content">
@@ -316,6 +427,7 @@
         </div>
     </div>
 
+    <!-- СЛАЙД 4 -->
     <div class="slide-container">
         <div class="slide slide-4 slide-with-image text-left">
             <div class="slide-content">
@@ -345,6 +457,7 @@
         </div>
     </div>
 
+    <!-- СЛАЙД 5 -->
     <div class="slide-container">
         <div class="slide slide-5 slide-with-image text-right">
             <div class="slide-content">
@@ -369,6 +482,7 @@
         </div>
     </div>
 
+    <!-- СЛАЙД 6 -->
     <div class="slide-container">
         <div class="slide slide-6 slide-with-image text-left">
             <div class="slide-content">
@@ -392,6 +506,7 @@
         </div>
     </div>
 
+    <!-- СЛАЙД 7 -->
     <div class="slide-container">
         <div class="slide slide-7 slide-with-image text-right">
             <div class="slide-content">
@@ -412,6 +527,7 @@
         </div>
     </div>
 
+    <!-- СЛАЙД 8 -->
     <div class="slide-container">
         <div class="slide slide-8 slide-with-image text-left">
             <div class="slide-content">
@@ -433,6 +549,7 @@
         </div>
     </div>
 
+    <!-- СЛАЙД 9 -->
     <div class="slide-container">
         <div class="slide slide-9">
             <h2 style="text-align: center; color: white; margin-bottom: 50px; width: 100%;">Organizadores y apoyo</h2>
@@ -454,6 +571,7 @@
         </div>
     </div>
 
+    <!-- СЛАЙД 10 -->
     <div class="slide-container">
         <div class="slide slide-10 slide-with-image text-right">
             <div class="slide-content">
@@ -463,10 +581,11 @@
         </div>
     </div>
 
+    <!-- СЛАЙД 11 -->
     <div class="slide-container">
         <div class="slide slide-11">
             <h1>¡Únete!</h1>
-            <p class="tagline">Regala a los niños una experiencia que recordarán toda la vida</p>
+            <p class="tagline">Regала a los niños una experiencia que recordarán toda la vida</p>
             <div class="contact-section">
                 <h3>Contacta con nosotros</h3>
                 <div class="contact-info">
@@ -485,6 +604,7 @@
         </div>
     </div>
 
+    <!-- Navigation -->
     <div class="nav-buttons">
         <button class="nav-btn" id="prev-btn" onclick="previousSlide()">← Anterior</button>
         <button class="nav-btn" id="next-btn" onclick="nextSlide()">Siguiente →</button>
