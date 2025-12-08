@@ -6,112 +6,260 @@
     <title>Teatro Sin Fronteras 2026</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Calibri', 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; }
-        .slide-container { width: 100%; max-width: 1400px; margin: 20px auto; background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.15); overflow: hidden; display: none; }
+        html, body { 
+            width: 100%; 
+            height: 100%; 
+            overflow: hidden; 
+            margin: 0;
+            padding: 0;
+        }
+        body { 
+            font-family: 'Calibri', 'Segoe UI', Arial, sans-serif; 
+            background: #f5f5f5; 
+            color: #333; 
+            line-height: 1.6; 
+        }
+
+        /* ОСНОВНОЙ КОНТЕЙНЕР - РОВНО 100% ВЫСОТЫ ЭКРАНА */
+        .slide-container { 
+            width: 100vw; 
+            height: 100vh; 
+            display: none; 
+            overflow: auto;
+            flex-shrink: 0;
+        }
         .slide-container.active { display: block; }
-        .slide { min-height: 700px; padding: 60px 80px; position: relative; background-size: cover; background-position: center; }
+
+        /* ВСЕ СЛАЙДЫ - ТОЧНО 100% ВЫСОТЫ */
+        .slide { 
+            width: 100%; 
+            height: 100vh; 
+            padding: 60px 80px; 
+            position: relative; 
+            background-size: cover; 
+            background-position: center; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
 
         /* Slide 1 - Title */
-        .slide-1 { background: linear-gradient(135deg, rgba(30,58,95,0.95) 0%, rgba(44,82,130,0.95) 100%); color: white; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .slide-1 { 
+            background: linear-gradient(135deg, rgba(30,58,95,0.95) 0%, rgba(44,82,130,0.95) 100%); 
+            color: white; 
+            text-align: center; 
+            align-items: center; 
+            justify-content: center;
+        }
         .logo-row { display: flex; justify-content: center; align-items: center; gap: 30px; margin-bottom: 40px; }
-        .logo-img { height: 80px; width: auto; object-fit: contain; background: white; padding: 10px; border-radius: 8px; }
         .slide-1 h1 { font-size: 64px; font-weight: bold; margin-bottom: 20px; letter-spacing: 3px; }
         .slide-1 .subtitle { font-size: 32px; font-weight: 300; margin-bottom: 50px; font-style: italic; }
         .slide-1 .festival-info { font-size: 20px; margin: 10px 0; }
         .slide-1 .tagline { font-size: 22px; font-style: italic; margin-top: 40px; opacity: 0.9; }
 
-        /* Slides with text + image layout */
-        .slide-with-image { display: flex; align-items: stretch; padding: 0 !important; min-height: 700px; }
+        /* Slides with text + image layout - RESPONSIVE - РОВНО 100% ВЫСОТЫ */
+        .slide-with-image { 
+            display: flex; 
+            align-items: stretch; 
+            padding: 0 !important; 
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
         .slide-with-image.text-left { flex-direction: row; }
         .slide-with-image.text-right { flex-direction: row-reverse; }
-        .slide-content { flex: 1; padding: 60px 80px; display: flex; flex-direction: column; justify-content: center; background: white; }
-        .slide-image-half { flex: 1; background-size: cover; background-position: center; min-height: 700px; }
-        .slide-image-half.empty { background: linear-gradient(135deg, #E0F2FE 0%, #BEE3F8 100%); }
 
-        /* Slide 9 - Organizers (full width) */
-        .slide-9 { background: linear-gradient(135deg, rgba(30,58,95,0.95) 0%, rgba(44,82,130,0.95) 100%); color: white; }
+        .slide-content { 
+            flex: 1; 
+            padding: 4vh 5vw; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            background: white;
+            overflow-y: auto;
+            height: 100vh;
+        }
 
-        /* Slide 11 - Contact (full width) */
-        .slide-11 { background: linear-gradient(135deg, rgba(30,58,95,0.95) 0%, rgba(44,82,130,0.95) 100%); color: white; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .slide-image-half { 
+            flex: 1; 
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .slide-image-half.empty { 
+            background: linear-gradient(135deg, #E0F2FE 0%, #BEE3F8 100%);
+            color: #0369A1;
+            font-size: 18px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Slide 9 - Organizers - РОВНО 100% ВЫСОТЫ */
+        .slide-9 { 
+            background: linear-gradient(135deg, rgba(30,58,95,0.95) 0%, rgba(44,82,130,0.95) 100%); 
+            color: white; 
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Slide 11 - Contact - РОВНО 100% ВЫСОТЫ */
+        .slide-11 { 
+            background: linear-gradient(135deg, rgba(30,58,95,0.95) 0%, rgba(44,82,130,0.95) 100%); 
+            color: white; 
+            text-align: center; 
+            align-items: center; 
+            justify-content: center;
+        }
         .slide-11 h1 { font-size: 64px; margin-bottom: 30px; font-weight: bold; }
         .slide-11 .tagline { font-size: 24px; margin-bottom: 50px; }
 
-        h2 { font-size: 48px; color: #0EA5E9; margin-bottom: 30px; font-weight: bold; }
-        h3 { font-size: 22px; color: #0EA5E9; margin-bottom: 8px; font-weight: bold; }
-        .description-box { background: #E0F2FE; padding: 25px; border-radius: 8px; margin-bottom: 35px; border-left: 5px solid #0EA5E9; }
-        .description-box p, .stats-list { font-size: 18px; color: #0369A1; line-height: 1.8; }
-        .stats-list strong { color: #0EA5E9; font-size: 20px; }
-        .instagram-link { margin-top: 30px; font-size: 18px; color: #0369A1; font-style: italic; }
+        h2 { font-size: clamp(32px, 4vw, 48px); color: #0EA5E9; margin-bottom: 30px; font-weight: bold; }
+        h3 { font-size: clamp(18px, 2vw, 22px); color: #0EA5E9; margin-bottom: 8px; font-weight: bold; }
+
+        .description-box { 
+            background: #E0F2FE; 
+            padding: 25px; 
+            border-radius: 8px; 
+            margin-bottom: 35px; 
+            border-left: 5px solid #0EA5E9; 
+        }
+        .description-box p, .stats-list { font-size: clamp(16px, 1.5vw, 18px); color: #0369A1; line-height: 1.8; }
+        .stats-list p { margin-bottom: 10px; }
+        .stats-list strong { color: #0EA5E9; font-size: clamp(18px, 1.8vw, 20px); }
+        .instagram-link { margin-top: 30px; font-size: clamp(16px, 1.5vw, 18px); color: #0369A1; font-style: italic; }
         .instagram-link a { color: #0EA5E9; text-decoration: none; font-weight: bold; }
 
-        .reason-item { margin-bottom: 25px; }
-        .reason-item h3 { font-size: 22px; color: #0EA5E9; margin-bottom: 8px; font-weight: bold; }
-        .reason-item p { font-size: 18px; color: #0369A1; padding-left: 20px; }
-        .motto { text-align: center; font-size: 28px; color: #0EA5E9; font-style: italic; margin-top: 40px; font-weight: bold; }
+        .reason-item { margin-bottom: 20px; }
+        .reason-item h3 { font-size: clamp(18px, 2vw, 22px); color: #0EA5E9; margin-bottom: 8px; font-weight: bold; }
+        .reason-item p { font-size: clamp(16px, 1.5vw, 18px); color: #0369A1; padding-left: 20px; }
+        .motto { text-align: center; font-size: clamp(22px, 2.5vw, 28px); color: #0EA5E9; font-style: italic; margin-top: 30px; font-weight: bold; }
 
-        .news-item { margin-bottom: 25px; }
-        .news-item h3 { font-size: 22px; color: #0EA5E9; margin-bottom: 10px; font-weight: bold; }
-        .news-item p { font-size: 18px; color: #0369A1; line-height: 1.8; }
+        .news-item { margin-bottom: 20px; }
+        .news-item h3 { font-size: clamp(18px, 2vw, 22px); color: #0EA5E9; margin-bottom: 10px; font-weight: bold; }
+        .news-item p { font-size: clamp(16px, 1.5vw, 18px); color: #0369A1; line-height: 1.8; }
 
-        .format-section { margin-bottom: 40px; }
-        .format-section h3 { font-size: 28px; color: #0EA5E9; margin-bottom: 15px; font-weight: bold; }
+        .format-section { margin-bottom: 30px; }
+        .format-section h3 { font-size: clamp(22px, 2.5vw, 28px); color: #0EA5E9; margin-bottom: 15px; font-weight: bold; }
         .format-section ul { list-style: none; padding: 0; }
-        .format-section li { font-size: 18px; color: #0369A1; padding: 8px 0 8px 20px; position: relative; }
+        .format-section li { font-size: clamp(16px, 1.5vw, 18px); color: #0369A1; padding: 8px 0 8px 20px; position: relative; }
         .format-section li:before { content: "• "; position: absolute; left: 0; color: #0EA5E9; font-weight: bold; }
 
-        .awards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-        .award-box { text-align: center; padding: 30px; background: #E0F2FE; border-radius: 8px; border-top: 4px solid #0EA5E9; }
-        .award-box h3 { font-size: 22px; color: #0EA5E9; margin-bottom: 15px; font-weight: bold; }
-        .award-box p { font-size: 18px; color: #0369A1; }
+        .awards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .award-box { text-align: center; padding: 20px; background: #E0F2FE; border-radius: 8px; border-top: 4px solid #0EA5E9; }
+        .award-box h3 { font-size: clamp(18px, 2vw, 22px); color: #0EA5E9; margin-bottom: 15px; font-weight: bold; }
+        .award-box p { font-size: clamp(16px, 1.5vw, 18px); color: #0369A1; }
 
-        .conditions-box { background: #E0F2FE; padding: 30px; border-radius: 8px; border-left: 5px solid #0EA5E9; margin-bottom: 30px; }
-        .conditions-box p { font-size: 18px; color: #0369A1; line-height: 2; }
-        .conditions-box strong { color: #0EA5E9; font-size: 20px; }
+        .conditions-box { background: #E0F2FE; padding: 25px; border-radius: 8px; border-left: 5px solid #0EA5E9; margin-bottom: 25px; }
+        .conditions-box p { font-size: clamp(16px, 1.5vw, 18px); color: #0369A1; line-height: 2; }
+        .conditions-box strong { color: #0EA5E9; font-size: clamp(18px, 1.8vw, 20px); }
 
-        .pricing-section { margin-top: 30px; }
-        .pricing-section h3 { font-size: 28px; color: #0EA5E9; margin-bottom: 15px; font-weight: bold; }
-        .pricing-section p { font-size: 20px; color: #0369A1; line-height: 1.8; }
-        .pricing-highlight { font-style: italic; margin-top: 20px; font-size: 18px; }
+        .pricing-section { margin-top: 25px; }
+        .pricing-section h3 { font-size: clamp(22px, 2.5vw, 28px); color: #0EA5E9; margin-bottom: 15px; font-weight: bold; }
+        .pricing-section p { font-size: clamp(18px, 1.8vw, 20px); color: #0369A1; line-height: 1.8; }
+        .pricing-highlight { font-style: italic; margin-top: 15px; font-size: clamp(16px, 1.5vw, 18px); }
 
-        .testimonial { margin-bottom: 30px; padding: 20px; background: #E0F2FE; border-left: 5px solid #0EA5E9; border-radius: 4px; }
-        .testimonial-author { font-size: 18px; color: #0EA5E9; font-style: italic; margin-bottom: 10px; font-weight: bold; }
-        .testimonial-text { font-size: 18px; color: #0369A1; font-style: italic; line-height: 1.8; }
+        .testimonial { margin-bottom: 25px; padding: 20px; background: #E0F2FE; border-left: 5px solid #0EA5E9; border-radius: 4px; }
+        .testimonial-author { font-size: clamp(16px, 1.5vw, 18px); color: #0EA5E9; font-style: italic; margin-bottom: 10px; font-weight: bold; }
+        .testimonial-text { font-size: clamp(16px, 1.5vw, 18px); color: #0369A1; font-style: italic; line-height: 1.8; }
 
-        .organizers-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+        .organizers-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; width: 100%; max-width: 1200px; }
         .organizer-box { background: rgba(255,255,255,0.15); padding: 30px; border-radius: 8px; text-align: center; border: 2px solid rgba(255,255,255,0.3); }
-        .organizer-box h3 { font-size: 24px; margin-bottom: 10px; font-weight: bold; color: white; }
-        .organizer-box p { font-size: 16px; opacity: 0.9; color: white; }
+        .organizer-box h3 { font-size: clamp(20px, 2.2vw, 24px); margin-bottom: 10px; font-weight: bold; color: white; }
+        .organizer-box p { font-size: clamp(14px, 1.5vw, 16px); opacity: 0.9; color: white; }
 
         /* Slide 10 */
-        .slide-10 { background: white; display: flex; justify-content: center; align-items: center; }
-        .slide-10 h2 { font-size: 56px; color: #0EA5E9; font-weight: bold; text-align: center; }
+        .slide-10 .slide-content { align-items: center; justify-content: center; }
+        .slide-10 h2 { font-size: clamp(36px, 5vw, 56px); color: #0EA5E9; font-weight: bold; text-align: center; }
 
-        .contact-section h3 { font-size: 32px; margin-bottom: 30px; font-weight: bold; }
-        .contact-info { font-size: 20px; margin: 15px 0; line-height: 2; }
+        .contact-section h3 { font-size: clamp(28px, 3vw, 32px); margin-bottom: 30px; font-weight: bold; }
+        .contact-info { font-size: clamp(18px, 2vw, 20px); margin: 15px 0; line-height: 2; }
         .contact-info a { color: white; text-decoration: none; border-bottom: 2px solid white; }
 
-        .nav-buttons { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 15px; z-index: 1000; background: rgba(255,255,255,0.95); padding: 15px 25px; border-radius: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
-        .nav-btn { background: #0EA5E9; color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-size: 16px; font-weight: bold; transition: all 0.3s; }
+        .nav-buttons { 
+            position: fixed; 
+            bottom: 30px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            display: flex; 
+            gap: 15px; 
+            z-index: 1000; 
+            background: rgba(255,255,255,0.95); 
+            padding: 15px 25px; 
+            border-radius: 50px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2); 
+        }
+        .nav-btn { 
+            background: #0EA5E9; 
+            color: white; 
+            border: none; 
+            padding: 12px 30px; 
+            border-radius: 25px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: bold; 
+            transition: all 0.3s; 
+        }
         .nav-btn:hover { background: #0369A1; transform: translateY(-2px); }
         .nav-btn:disabled { background: #94a3b8; cursor: not-allowed; transform: none; }
 
-        .slide-counter { position: fixed; top: 30px; right: 30px; background: #0EA5E9; color: white; padding: 12px 25px; border-radius: 25px; font-weight: bold; z-index: 1000; font-size: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .slide-counter { 
+            position: fixed; 
+            top: 30px; 
+            right: 30px; 
+            background: #0EA5E9; 
+            color: white; 
+            padding: 12px 25px; 
+            border-radius: 25px; 
+            font-weight: bold; 
+            z-index: 1000; 
+            font-size: 18px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+        }
 
+        /* Mobile responsiveness */
         @media (max-width: 768px) {
-            .slide { padding: 40px 30px; min-height: 600px; }
-            .slide-with-image { flex-direction: column !important; }
-            .slide-content { padding: 40px 30px; }
-            .slide-image-half { min-height: 400px; }
-            h1 { font-size: 36px !important; }
+            html, body { overflow: auto; }
+            .slide { 
+                height: auto; 
+                min-height: 100vh; 
+                padding: 40px 30px; 
+            }
+            .slide-container { 
+                height: auto; 
+                min-height: 100vh; 
+            }
+            .slide-with-image { 
+                flex-direction: column !important; 
+                height: auto;
+                min-height: 100vh;
+            }
+            .slide-content { 
+                height: auto; 
+                min-height: 50vh; 
+                overflow: visible;
+            }
+            .slide-image-half { 
+                height: 50vh; 
+                min-height: 300px;
+            }
+            .slide-1 h1 { font-size: 36px !important; }
             h2 { font-size: 32px !important; }
             .awards-grid, .organizers-grid { grid-template-columns: 1fr; }
+            .nav-buttons { bottom: 15px; padding: 10px 15px; }
+            .nav-btn { padding: 10px 20px; font-size: 14px; }
+            .slide-counter { top: 15px; right: 15px; padding: 8px 15px; font-size: 14px; }
         }
     </style>
 </head>
 <body>
     <div class="slide-counter"><span id="current-slide">1</span> / <span id="total-slides">11</span></div>
 
-    <!-- Slide 1: Title -->
+    <!-- Slide 1: Title - 100vh -->
     <div class="slide-container active">
         <div class="slide slide-1">
             <div class="logo-row">
@@ -128,7 +276,7 @@
         </div>
     </div>
 
-    <!-- Slide 2: Sobre el Festival (text-left, image-right) -->
+    <!-- Slide 2: Sobre el Festival - 100vh -->
     <div class="slide-container">
         <div class="slide slide-2 slide-with-image text-left">
             <div class="slide-content">
@@ -149,7 +297,7 @@
         </div>
     </div>
 
-    <!-- Slide 3: ¿Por qué participar? (text-right, image-left) -->
+    <!-- Slide 3: ¿Por qué participar? - 100vh -->
     <div class="slide-container">
         <div class="slide slide-3 slide-with-image text-right">
             <div class="slide-content">
@@ -182,7 +330,7 @@
         </div>
     </div>
 
-    <!-- Slide 4: Novedades 2026 (text-left, image-right) -->
+    <!-- Slide 4: Novedades 2026 - 100vh -->
     <div class="slide-container">
         <div class="slide slide-4 slide-with-image text-left">
             <div class="slide-content">
@@ -212,7 +360,7 @@
         </div>
     </div>
 
-    <!-- Slide 5: Formato (text-right, image-left) -->
+    <!-- Slide 5: Formato - 100vh -->
     <div class="slide-container">
         <div class="slide slide-5 slide-with-image text-right">
             <div class="slide-content">
@@ -237,7 +385,7 @@
         </div>
     </div>
 
-    <!-- Slide 6: Premios (text-left, image-right) -->
+    <!-- Slide 6: Premios - 100vh -->
     <div class="slide-container">
         <div class="slide slide-6 slide-with-image text-left">
             <div class="slide-content">
@@ -261,7 +409,7 @@
         </div>
     </div>
 
-    <!-- Slide 7: Condiciones (text-right, image-left) -->
+    <!-- Slide 7: Condiciones - 100vh -->
     <div class="slide-container">
         <div class="slide slide-7 slide-with-image text-right">
             <div class="slide-content">
@@ -282,7 +430,7 @@
         </div>
     </div>
 
-    <!-- Slide 8: Testimonios (text-left, image-right) -->
+    <!-- Slide 8: Testimonios - 100vh -->
     <div class="slide-container">
         <div class="slide slide-8 slide-with-image text-left">
             <div class="slide-content">
@@ -304,10 +452,10 @@
         </div>
     </div>
 
-    <!-- Slide 9: Organizadores (full width) -->
+    <!-- Slide 9: Organizadores - 100vh -->
     <div class="slide-container">
         <div class="slide slide-9">
-            <h2 style="text-align: center; color: white; margin-bottom: 50px;">Organizadores y apoyo</h2>
+            <h2 style="text-align: center; color: white; margin-bottom: 50px; width: 100%;">Organizadores y apoyo</h2>
             <div class="organizers-grid">
                 <div class="organizer-box">
                     <h3>🏛️ Generalitat de Cataluña</h3>
@@ -326,7 +474,7 @@
         </div>
     </div>
 
-    <!-- Slide 10: Call to think (text-right, image-left) -->
+    <!-- Slide 10: Call to think - 100vh -->
     <div class="slide-container">
         <div class="slide slide-10 slide-with-image text-right">
             <div class="slide-content">
@@ -336,7 +484,7 @@
         </div>
     </div>
 
-    <!-- Slide 11: Contact -->
+    <!-- Slide 11: Contact - 100vh -->
     <div class="slide-container">
         <div class="slide slide-11">
             <h1>¡Únete!</h1>
@@ -378,7 +526,11 @@
             document.getElementById('current-slide').textContent = currentSlide;
             document.getElementById('prev-btn').disabled = currentSlide === 1;
             document.getElementById('next-btn').disabled = currentSlide === totalSlides;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            const activeContainer = containers[currentSlide - 1];
+            if (activeContainer) {
+                activeContainer.scrollTop = 0;
+            }
         }
 
         function nextSlide() {
@@ -399,6 +551,23 @@
             if (e.key === 'ArrowRight') nextSlide();
             if (e.key === 'ArrowLeft') previousSlide();
         });
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) nextSlide();
+            if (touchEndX > touchStartX + 50) previousSlide();
+        }
 
         showSlide(currentSlide);
     </script>
