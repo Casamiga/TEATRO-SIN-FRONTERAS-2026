@@ -5,465 +5,712 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teatro Sin Fronteras 2026</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { 
-            width: 100%; 
-            height: 100%; 
-            overflow: hidden; 
+        * {
             margin: 0;
             padding: 0;
-        }
-        body { 
-            font-family: 'Calibri', 'Segoe UI', Arial, sans-serif; 
-            background: #f5f5f5; 
-            color: #333; 
-            line-height: 1.6; 
+            box-sizing: border-box;
         }
 
-        .slide-container { 
-            width: 100vw; 
-            height: 100vh; 
-            display: none; 
-            overflow: auto;
-        }
-        .slide-container.active { display: block; }
-
-        .slide { 
-            width: 100%; 
-            height: 100vh; 
-            padding: 60px 80px; 
-            position: relative; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
+        body {
+            font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
         }
 
-        /* НОВЫЙ СЛАЙД 1 - по картинке */
-        .slide-1 { 
-            background: linear-gradient(to right, #0091DA 0%, #00A8E8 100%);
-            color: white; 
-            padding: 0 !important;
-            display: flex;
-            flex-direction: row;
-            align-items: stretch;
-            justify-content: space-between;
-        }
-
-        /* Левая часть - ШТОРА */
-        .slide-1-left { 
-            flex: 0 0 25%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .slide-container {
+            width: 100%;
+            height: 100vh;
+            display: none;
             position: relative;
         }
 
-        .curtain-image { 
+        .slide-container.active {
+            display: flex;
+        }
+
+        /* ===== SLIDE 1: Portada ===== */
+        .slide-1 {
+            background: linear-gradient(135deg, #00A8E8 0%, #0088C3 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            gap: 40px;
+        }
+
+        .slide-1-cortina {
+            flex: 0 0 25%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .slide-1-cortina img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center;
         }
 
-        /* Центральная часть - ТЕКСТ */
-        .slide-1-center { 
-            flex: 1;
+        .slide-1-content {
+            flex: 0 0 45%;
+            text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: flex-start;
-            padding: 60px 40px;
         }
 
-        .slide-1-center h1 { 
-            font-size: 60px; 
-            font-weight: bold; 
-            margin-bottom: 15px; 
-            letter-spacing: 2px;
-            line-height: 1.1;
+        .slide-1 h1 {
+            font-size: clamp(36px, 8vw, 72px);
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }
 
-        .slide-1-center .subtitle { 
-            font-size: 28px; 
-            font-weight: 300; 
-            margin-bottom: 40px; 
+        .slide-1 .subtitle {
+            font-size: clamp(20px, 4vw, 36px);
+            font-weight: 300;
+            margin-bottom: 30px;
             font-style: italic;
-            max-width: 600px;
         }
 
-        .slide-1-center .festival-info { 
-            font-size: 18px; 
-            margin: 8px 0;
-            line-height: 1.4;
+        .slide-1 .festival-info {
+            font-size: clamp(16px, 2.5vw, 22px);
+            margin: 10px 0;
         }
 
-        .slide-1-center .tagline { 
-            font-size: 20px; 
-            font-style: italic; 
-            margin-top: 35px; 
+        .slide-1 .festival-date {
+            font-size: clamp(14px, 2vw, 20px);
+            margin-top: 20px;
+        }
+
+        .slide-1 .tagline {
+            font-size: clamp(16px, 3vw, 24px);
+            font-style: italic;
+            margin-top: 30px;
             opacity: 0.95;
         }
 
-        /* Правая часть - КРУГЛОЕ ЛОГО */
-        .slide-1-right { 
+        .slide-1-logo {
             flex: 0 0 30%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
+            overflow: hidden;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 4px solid rgba(255, 255, 255, 0.4);
         }
 
-        .logo-circle { 
+        .slide-1-logo img {
             width: 90%;
             height: 90%;
-            max-width: 500px;
-            max-height: 500px;
             object-fit: contain;
-            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.25));
         }
 
-        /* ОСТАЛЬНЫЕ СЛАЙДЫ - неизменяемые */
-        .slide-with-image { 
-            display: flex; 
-            align-items: stretch; 
-            padding: 0 !important; 
-            width: 100%;
-            height: 100vh;
-        }
-        .slide-with-image.text-left { flex-direction: row; }
-        .slide-with-image.text-right { flex-direction: row-reverse; }
-
-        .slide-content { 
-            flex: 1; 
-            padding: 4vh 5vw; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            background: white;
-            overflow-y: auto;
-            height: 100vh;
-        }
-
-        .slide-image-half { 
-            flex: 1; 
-            height: 100vh;
-            width: 50%;
+        /* ===== SLIDES 2-8, 10: Text + Image Layout ===== */
+        .slide-with-layout {
             display: flex;
-            align-items: center;
+            height: 100vh;
+        }
+
+        .slide-text {
+            flex: 1;
+            padding: clamp(40px, 5vw, 80px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
+            background: white;
+        }
+
+        .slide-image-half {
+            flex: 1;
+            height: 100vh;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: #E0F2FE;
+        }
+
+        .slide-text h2 {
+            font-size: clamp(32px, 6vw, 48px);
+            color: #00A8E8;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .description-box {
+            background: #E0F2FE;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 5px solid #00A8E8;
+        }
+
+        .description-box p {
+            font-size: clamp(16px, 2.2vw, 20px);
+            color: #0369A1;
+            line-height: 1.8;
+        }
+
+        .stats-list {
+            font-size: clamp(14px, 2vw, 18px);
+            color: #0369A1;
+            line-height: 2;
+        }
+
+        .stats-list strong {
+            color: #00A8E8;
+            font-size: clamp(15px, 2.2vw, 20px);
+        }
+
+        .instagram-link {
+            margin-top: 30px;
+            font-size: clamp(14px, 2vw, 18px);
+            color: #0369A1;
+            font-style: italic;
+        }
+
+        .instagram-link a {
+            color: #00A8E8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .reason-item {
+            margin-bottom: 20px;
+        }
+
+        .reason-item h3 {
+            font-size: clamp(16px, 2.5vw, 22px);
+            color: #00A8E8;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .reason-item p {
+            font-size: clamp(14px, 2vw, 18px);
+            color: #0369A1;
+            padding-left: 15px;
+        }
+
+        .motto {
+            text-align: center;
+            font-size: clamp(20px, 4vw, 28px);
+            color: #00A8E8;
+            font-style: italic;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+
+        .news-item {
+            margin-bottom: 20px;
+        }
+
+        .news-item h3 {
+            font-size: clamp(16px, 2.5vw, 22px);
+            color: #00A8E8;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .news-item p {
+            font-size: clamp(14px, 2vw, 18px);
+            color: #0369A1;
+            line-height: 1.8;
+        }
+
+        .format-section {
+            margin-bottom: 30px;
+        }
+
+        .format-section h3 {
+            font-size: clamp(18px, 3vw, 28px);
+            color: #00A8E8;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .format-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .format-section li {
+            font-size: clamp(14px, 2vw, 18px);
+            color: #0369A1;
+            padding: 6px 0 6px 20px;
             position: relative;
         }
 
-        .slide-image-half.empty { 
-            background: linear-gradient(135deg, #E0F2FE 0%, #BEE3F8 100%);
-            color: #0369A1;
-            font-size: 18px;
-            text-align: center;
-            padding: 20px;
+        .format-section li:before {
+            content: "• ";
+            position: absolute;
+            left: 0;
+            color: #00A8E8;
+            font-weight: bold;
         }
 
-        .slide-9 { 
-            background: linear-gradient(135deg, rgba(30,58,95,0.95) 0%, rgba(44,82,130,0.95) 100%); 
-            color: white; 
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .award-box {
+            text-align: center;
+            padding: 25px;
+            background: #E0F2FE;
+            border-radius: 8px;
+            border-top: 4px solid #00A8E8;
+        }
+
+        .award-box h3 {
+            font-size: clamp(16px, 2.2vw, 22px);
+            color: #00A8E8;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .award-box p {
+            font-size: clamp(14px, 1.8vw, 18px);
+            color: #0369A1;
+        }
+
+        .conditions-box {
+            background: #E0F2FE;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 5px solid #00A8E8;
+            margin-bottom: 25px;
+        }
+
+        .conditions-box p {
+            font-size: clamp(14px, 2vw, 18px);
+            color: #0369A1;
+            line-height: 2;
+        }
+
+        .conditions-box strong {
+            color: #00A8E8;
+            font-size: clamp(15px, 2.2vw, 20px);
+        }
+
+        .pricing-section {
+            margin-top: 25px;
+        }
+
+        .pricing-section h3 {
+            font-size: clamp(18px, 3vw, 28px);
+            color: #00A8E8;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .pricing-section p {
+            font-size: clamp(16px, 2.2vw, 20px);
+            color: #0369A1;
+            line-height: 1.8;
+        }
+
+        .pricing-highlight {
+            font-style: italic;
+            margin-top: 15px;
+            font-size: clamp(14px, 2vw, 18px);
+        }
+
+        .testimonial {
+            margin-bottom: 20px;
+            padding: 18px;
+            background: #E0F2FE;
+            border-left: 5px solid #00A8E8;
+            border-radius: 4px;
+        }
+
+        .testimonial-author {
+            font-size: clamp(14px, 2vw, 18px);
+            color: #00A8E8;
+            font-style: italic;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .testimonial-text {
+            font-size: clamp(14px, 2vw, 18px);
+            color: #0369A1;
+            font-style: italic;
+            line-height: 1.8;
+        }
+
+        /* ===== SLIDE 9: Organizadores ===== */
+        .slide-9 {
+            background: linear-gradient(135deg, #00A8E8 0%, #0088C3 100%);
+            color: white;
+            padding: clamp(40px, 5vw, 80px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .slide-9 h2 {
+            font-size: clamp(36px, 6vw, 48px);
+            color: white;
+            margin-bottom: 50px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .organizers-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .organizer-box {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 40px 30px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 20px;
         }
 
-        .slide-11 { 
-            background: linear-gradient(135deg, rgba(30,58,95,0.95) 0%, rgba(44,82,130,0.95) 100%); 
-            color: white; 
-            text-align: center; 
-            align-items: center; 
+        .organizer-logo {
+            height: clamp(80px, 12vw, 140px);
+            width: auto;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        .organizer-box h3 {
+            font-size: clamp(16px, 2.5vw, 24px);
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .organizer-box p {
+            font-size: clamp(14px, 2vw, 16px);
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        /* ===== SLIDE 10: Thinking ===== */
+        .slide-10 {
+            background: white;
+            display: flex !important;
             justify-content: center;
-        }
-        .slide-11 h1 { font-size: 64px; margin-bottom: 30px; font-weight: bold; }
-        .slide-11 .tagline { font-size: 24px; margin-bottom: 50px; }
-
-        h2 { font-size: clamp(32px, 4vw, 48px); color: #0EA5E9; margin-bottom: 30px; font-weight: bold; }
-        h3 { font-size: clamp(18px, 2vw, 22px); color: #0EA5E9; margin-bottom: 8px; font-weight: bold; }
-
-        .description-box { 
-            background: #E0F2FE; 
-            padding: 25px; 
-            border-radius: 8px; 
-            margin-bottom: 35px; 
-            border-left: 5px solid #0EA5E9; 
-        }
-        .description-box p, .stats-list { font-size: clamp(16px, 1.5vw, 18px); color: #0369A1; line-height: 1.8; }
-        .stats-list p { margin-bottom: 10px; }
-        .stats-list strong { color: #0EA5E9; font-size: clamp(18px, 1.8vw, 20px); }
-        .instagram-link { margin-top: 30px; font-size: clamp(16px, 1.5vw, 18px); color: #0369A1; font-style: italic; }
-        .instagram-link a { color: #0EA5E9; text-decoration: none; font-weight: bold; }
-
-        .reason-item { margin-bottom: 20px; }
-        .reason-item h3 { font-size: clamp(18px, 2vw, 22px); color: #0EA5E9; margin-bottom: 8px; font-weight: bold; }
-        .reason-item p { font-size: clamp(16px, 1.5vw, 18px); color: #0369A1; padding-left: 20px; }
-        .motto { text-align: center; font-size: clamp(22px, 2.5vw, 28px); color: #0EA5E9; font-style: italic; margin-top: 30px; font-weight: bold; }
-
-        .news-item { margin-bottom: 20px; }
-        .news-item h3 { font-size: clamp(18px, 2vw, 22px); color: #0EA5E9; margin-bottom: 10px; font-weight: bold; }
-        .news-item p { font-size: clamp(16px, 1.5vw, 18px); color: #0369A1; line-height: 1.8; }
-
-        .format-section { margin-bottom: 30px; }
-        .format-section h3 { font-size: clamp(22px, 2.5vw, 28px); color: #0EA5E9; margin-bottom: 15px; font-weight: bold; }
-        .format-section ul { list-style: none; padding: 0; }
-        .format-section li { font-size: clamp(16px, 1.5vw, 18px); color: #0369A1; padding: 8px 0 8px 20px; position: relative; }
-        .format-section li:before { content: "• "; position: absolute; left: 0; color: #0EA5E9; font-weight: bold; }
-
-        .awards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .award-box { text-align: center; padding: 20px; background: #E0F2FE; border-radius: 8px; border-top: 4px solid #0EA5E9; }
-        .award-box h3 { font-size: clamp(18px, 2vw, 22px); color: #0EA5E9; margin-bottom: 15px; font-weight: bold; }
-        .award-box p { font-size: clamp(16px, 1.5vw, 18px); color: #0369A1; }
-
-        .conditions-box { background: #E0F2FE; padding: 25px; border-radius: 8px; border-left: 5px solid #0EA5E9; margin-bottom: 25px; }
-        .conditions-box p { font-size: clamp(16px, 1.5vw, 18px); color: #0369A1; line-height: 2; }
-        .conditions-box strong { color: #0EA5E9; font-size: clamp(18px, 1.8vw, 20px); }
-
-        .pricing-section { margin-top: 25px; }
-        .pricing-section h3 { font-size: clamp(22px, 2.5vw, 28px); color: #0EA5E9; margin-bottom: 15px; font-weight: bold; }
-        .pricing-section p { font-size: clamp(18px, 1.8vw, 20px); color: #0369A1; line-height: 1.8; }
-        .pricing-highlight { font-style: italic; margin-top: 15px; font-size: clamp(16px, 1.5vw, 18px); }
-
-        .testimonial { margin-bottom: 25px; padding: 20px; background: #E0F2FE; border-left: 5px solid #0EA5E9; border-radius: 4px; }
-        .testimonial-author { font-size: clamp(16px, 1.5vw, 18px); color: #0EA5E9; font-style: italic; margin-bottom: 10px; font-weight: bold; }
-        .testimonial-text { font-size: clamp(16px, 1.5vw, 18px); color: #0369A1; font-style: italic; line-height: 1.8; }
-
-        .organizers-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; width: 100%; max-width: 1200px; }
-        .organizer-box { background: rgba(255,255,255,0.15); padding: 30px; border-radius: 8px; text-align: center; border: 2px solid rgba(255,255,255,0.3); }
-        .organizer-box h3 { font-size: clamp(20px, 2.2vw, 24px); margin-bottom: 10px; font-weight: bold; color: white; }
-        .organizer-box p { font-size: clamp(14px, 1.5vw, 16px); opacity: 0.9; color: white; }
-
-        .slide-10 .slide-content { align-items: center; justify-content: center; }
-        .slide-10 h2 { font-size: clamp(36px, 5vw, 56px); color: #0EA5E9; font-weight: bold; text-align: center; }
-
-        .contact-section h3 { font-size: clamp(28px, 3vw, 32px); margin-bottom: 30px; font-weight: bold; }
-        .contact-info { font-size: clamp(18px, 2vw, 20px); margin: 15px 0; line-height: 2; }
-        .contact-info a { color: white; text-decoration: none; border-bottom: 2px solid white; }
-
-        .nav-buttons { 
-            position: fixed; 
-            bottom: 30px; 
-            left: 50%; 
-            transform: translateX(-50%); 
-            display: flex; 
-            gap: 15px; 
-            z-index: 1000; 
-            background: rgba(255,255,255,0.95); 
-            padding: 15px 25px; 
-            border-radius: 50px; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2); 
-        }
-        .nav-btn { 
-            background: #0EA5E9; 
-            color: white; 
-            border: none; 
-            padding: 12px 30px; 
-            border-radius: 25px; 
-            cursor: pointer; 
-            font-size: 16px; 
-            font-weight: bold; 
-            transition: all 0.3s; 
-        }
-        .nav-btn:hover { background: #0369A1; transform: translateY(-2px); }
-        .nav-btn:disabled { background: #94a3b8; cursor: not-allowed; transform: none; }
-
-        .slide-counter { 
-            position: fixed; 
-            top: 30px; 
-            right: 30px; 
-            background: #0EA5E9; 
-            color: white; 
-            padding: 12px 25px; 
-            border-radius: 25px; 
-            font-weight: bold; 
-            z-index: 1000; 
-            font-size: 18px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+            align-items: center;
+            padding: 60px;
         }
 
-        @media (max-width: 768px) {
-            html, body { overflow: auto; }
+        .slide-10 .slide-text {
+            flex: 1;
+            padding: 0;
+            justify-content: center;
+            background: white;
+        }
 
-            .slide-1 { 
+        .slide-10 h2 {
+            font-size: clamp(36px, 8vw, 56px);
+            color: #00A8E8;
+            font-weight: bold;
+            text-align: center;
+            margin: 0;
+        }
+
+        /* ===== SLIDE 11: Call to Action ===== */
+        .slide-11 {
+            background: linear-gradient(135deg, #00A8E8 0%, #0088C3 100%);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: clamp(40px, 5vw, 80px);
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .slide-11 h1 {
+            font-size: clamp(48px, 10vw, 72px);
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        .slide-11 .tagline {
+            font-size: clamp(18px, 3.5vw, 28px);
+            margin-bottom: 50px;
+        }
+
+        .contact-section h3 {
+            font-size: clamp(24px, 5vw, 36px);
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .contact-info {
+            font-size: clamp(16px, 2.5vw, 22px);
+            margin: 15px 0;
+            line-height: 2;
+        }
+
+        .contact-info a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 2px solid white;
+        }
+
+        .contact-info a:hover {
+            opacity: 0.8;
+        }
+
+        /* ===== Navigation ===== */
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-btn {
+            background: #00A8E8;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: clamp(14px, 2vw, 16px);
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: #0088C3;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: #00A8E8;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            z-index: 1000;
+            font-size: clamp(16px, 2vw, 18px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 1024px) {
+            .slide-1 {
                 flex-direction: column;
-                height: auto;
-                min-height: 100vh;
+                gap: 20px;
             }
 
-            .slide-1-left { 
-                flex: 0 0 30%;
+            .slide-1-cortina, .slide-1-logo, .slide-1-content {
+                flex: 1 !important;
+                width: 100%;
+                height: auto;
                 min-height: 200px;
             }
 
-            .slide-1-center { 
+            .slide-1-logo {
+                border-radius: 50%;
+            }
+
+            .awards-grid, .organizers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .slide-with-layout {
+                flex-direction: column;
+            }
+
+            .slide-text, .slide-image-half {
                 flex: 1;
-                padding: 40px 30px;
-                align-items: center;
-                text-align: center;
             }
 
-            .slide-1-right { 
-                flex: 0 0 35%;
-                min-height: 250px;
+            .slide-image-half {
+                height: 50vh;
             }
+        }
 
-            .slide-1-center h1 { font-size: 36px !important; }
-            .slide-1-center .subtitle { font-size: 20px !important; }
-
-            .slide { 
-                height: auto; 
-                min-height: 100vh; 
-                padding: 40px 30px; 
+        @media print {
+            .nav-buttons, .slide-counter {
+                display: none;
             }
-            .slide-container { 
-                height: auto; 
-                min-height: 100vh; 
-            }
-            .slide-with-image { 
-                flex-direction: column !important; 
+            .slide-container {
+                display: flex !important;
+                page-break-after: always;
                 height: auto;
-                min-height: 100vh;
             }
-            .slide-content { 
-                height: auto; 
-                min-height: 50vh; 
-                overflow: visible;
-            }
-            .slide-image-half { 
-                height: 50vh; 
-                min-height: 300px;
-                width: 100%;
-            }
-            h2 { font-size: 32px !important; }
-            .awards-grid, .organizers-grid { grid-template-columns: 1fr; }
-            .nav-buttons { bottom: 15px; padding: 10px 15px; }
-            .nav-btn { padding: 10px 20px; font-size: 14px; }
-            .slide-counter { top: 15px; right: 15px; padding: 8px 15px; font-size: 14px; }
         }
     </style>
 </head>
 <body>
-    <div class="slide-counter"><span id="current-slide">1</span> / <span id="total-slides">11</span></div>
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">11</span>
+    </div>
 
-    <!-- НОВЫЙ СЛАЙД 1 -->
+    <!-- ===== SLIDE 1: Portada ===== -->
     <div class="slide-container active">
-        <div class="slide slide-1">
-            <!-- ЛЕВАЯ ЧАСТЬ - ШТОРА -->
-            <div class="slide-1-left">
-                <img src="images/stora.png" alt="Штора" class="curtain-image">
+        <div class="slide-1">
+            <div class="slide-1-cortina">
+                <img src="images/stora.png" alt="Cortina">
             </div>
 
-            <!-- ЦЕНТРАЛЬНАЯ ЧАСТЬ - ТЕКСТ -->
-            <div class="slide-1-center">
+            <div class="slide-1-content">
                 <h1>Teatro Sin Fronteras</h1>
                 <p class="subtitle">Uniendo el mundo a través del teatro</p>
                 <div class="festival-info">
-                    <p style="font-style: italic; font-size: 20px;">Festival Internacional de Teatro Infantil</p>
-                    <p style="margin-top: 15px;">📅 1 de marzo de 2026</p>
+                    <p style="font-style: italic;">Festival Internacional de Teatro Infantil</p>
+                    <p class="festival-date">📅 1 de marzo de 2026</p>
                     <p>Teatro Municipal de Lloret de Mar, España</p>
                 </div>
                 <p class="tagline">Vuestro grupo en el escenario internacional de Europa</p>
             </div>
 
-            <!-- ПРАВАЯ ЧАСТЬ - КРУГЛОЕ ЛОГО -->
-            <div class="slide-1-right">
-                <img src="images/logo_theatr.png" alt="Logo Teatro Sin Fronteras" class="logo-circle">
+            <div class="slide-1-logo">
+                <img src="images/logo_theatr.png" alt="Logo">
             </div>
         </div>
     </div>
 
-    <!-- СЛАЙД 2 -->
+    <!-- ===== SLIDE 2: Sobre el Festival (Texto Izq + Foto Der) ===== -->
     <div class="slide-container">
-        <div class="slide slide-2 slide-with-image text-left">
-            <div class="slide-content">
+        <div class="slide-with-layout">
+            <div class="slide-text">
                 <h2>Sobre el Festival</h2>
+                
                 <div class="description-box">
                     <p>Una celebración internacional del teatro que reúne a niños y adolescentes de 6–18 años de diferentes países y culturas</p>
                 </div>
+                
                 <div class="stats-list">
                     <p><strong>2025:</strong> Primer Festival: 10 grupos, 5 idiomas, 400 espectadores, 8 categorías</p>
                     <p><strong>2026:</strong> Se esperan 6 países y 8 idiomas</p>
                     <p><strong>Valores:</strong> Inclusividad, diversidad lingüística, intercambio cultural</p>
                 </div>
+                
                 <div class="instagram-link">
                     <p>Instagram 👉 <a href="https://www.instagram.com/teatro_sinfronteras_festival" target="_blank">@teatro_sinfronteras_festival</a></p>
                 </div>
             </div>
-            <div class="slide-image-half empty" style="background: url('images/slide2.jpg') center/contain no-repeat #E0F2FE;"></div>
+            <div class="slide-image-half" style="background: url('images/slide2.jpg') center/contain no-repeat #E0F2FE;"></div>
         </div>
     </div>
 
-    <!-- СЛАЙД 3 -->
+    <!-- ===== SLIDE 3: ¿Por qué participar? (Foto Izq + Texto Der) ===== -->
     <div class="slide-container">
-        <div class="slide slide-3 slide-with-image text-right">
-            <div class="slide-content">
+        <div class="slide-with-layout" style="flex-direction: row-reverse;">
+            <div class="slide-text">
                 <h2>¿Por qué participar?</h2>
-                <div class="reasons-list">
-                    <div class="reason-item">
-                        <h3>🌍 Experiencia internacional:</h3>
-                        <p>Un escenario multicultural, público real, sin barreras lingüísticas</p>
-                    </div>
-                    <div class="reason-item">
-                        <h3>🏆 Prestigio para vuestro centro:</h3>
-                        <p>Actuar en un festival internacional de prestigio</p>
-                    </div>
-                    <div class="reason-item">
-                        <h3>🤝 Intercambio cultural:</h3>
-                        <p>Encuentros con grupos de 6 países europeos</p>
-                    </div>
-                    <div class="reason-item">
-                        <h3>💚 Atmósfera de apoyo:</h3>
-                        <p>Un festival de colaboración, no de competencia feroz</p>
-                    </div>
-                    <div class="reason-item">
-                        <h3>🎖️ Reconocimientos:</h3>
-                        <p>Estatuillas, diplomas, certificados internacionales y un Gran Premio con dotación económica</p>
-                    </div>
+                
+                <div class="reason-item">
+                    <h3>Experiencia internacional:</h3>
+                    <p>Un escenario multicultural, público real, sin barreras lingüísticas</p>
                 </div>
-                <p class="motto">✨ El arte borra fronteras ✨</p>
+                
+                <div class="reason-item">
+                    <h3>Prestigio para vuestro centro:</h3>
+                    <p>Actuar en un festival internacional de prestigio</p>
+                </div>
+                
+                <div class="reason-item">
+                    <h3>Intercambio cultural:</h3>
+                    <p>Encuentros con grupos de 6 países europeos</p>
+                </div>
+                
+                <div class="reason-item">
+                    <h3>Atmósfera de apoyo:</h3>
+                    <p>Un festival de colaboración, no de competencia feroz</p>
+                </div>
+                
+                <div class="reason-item">
+                    <h3>Reconocimientos:</h3>
+                    <p>Estatuillas, diplomas, certificados internacionales y un Gran Premio con dotación económica</p>
+                </div>
+                
+                <p class="motto">El arte borra fronteras</p>
             </div>
-            <div class="slide-image-half empty" style="background: url('images/slide3.jpg') center/contain no-repeat #E0F2FE;"></div>
+            <div class="slide-image-half" style="background: url('images/slide3.jpg') center/contain no-repeat #E0F2FE;"></div>
         </div>
     </div>
 
-    <!-- СЛАЙД 4 -->
+    <!-- ===== SLIDE 4: Novedades 2026 (Texto Izq + Foto Der) ===== -->
     <div class="slide-container">
-        <div class="slide slide-4 slide-with-image text-left">
-            <div class="slide-content">
+        <div class="slide-with-layout">
+            <div class="slide-text">
                 <h2>Novedades 2026</h2>
+                
                 <div class="news-item">
-                    <h3>📅 Por edades:</h3>
+                    <h3>Por edades:</h3>
                     <p>10:00–14:00 (6–11 años) y 16:00–20:00 (12–18 años)</p>
                 </div>
+                
                 <div class="news-item">
-                    <h3>👨‍⚖️ Jurado:</h3>
+                    <h3>Jurado:</h3>
                     <p>Actores profesionales, directores, pedagogos y expertos teatrales</p>
                 </div>
+                
                 <div class="news-item">
-                    <h3>🎭 Nuevos premios:</h3>
+                    <h3>Nuevos premios:</h3>
                     <p>Reconocimientos para diferentes géneros teatrales</p>
                 </div>
+                
                 <div class="news-item">
-                    <h3>📺 Cobertura mediática:</h3>
+                    <h3>Cobertura mediática:</h3>
                     <p>TV local y prensa de la región</p>
                 </div>
+                
                 <div class="news-item">
-                    <h3>🎫 Entrada gratuita:</h3>
+                    <h3>Entrada gratuita:</h3>
                     <p>Aforo completo para cada actuación</p>
                 </div>
             </div>
-            <div class="slide-image-half empty" style="background: url('images/slide4.jpg') center/contain no-repeat #E0F2FE;"></div>
+            <div class="slide-image-half" style="background: url('images/slide4.jpg') center/contain no-repeat #E0F2FE;"></div>
         </div>
     </div>
 
-    <!-- СЛАЙД 5 -->
+    <!-- ===== SLIDE 5: Formato (Foto Izq + Texto Der) ===== -->
     <div class="slide-container">
-        <div class="slide slide-5 slide-with-image text-right">
-            <div class="slide-content">
+        <div class="slide-with-layout" style="flex-direction: row-reverse;">
+            <div class="slide-text">
                 <h2>Formato de participación</h2>
+                
                 <div class="format-section">
-                    <h3>🎬 El espectáculo</h3>
+                    <h3>El espectáculo</h3>
                     <ul>
                         <li>Duración: 10–15 minutos</li>
                         <li>Montaje: hasta 10 minutos</li>
@@ -471,132 +718,153 @@
                         <li>Cualquier idioma es bienvenido</li>
                     </ul>
                 </div>
+                
                 <div class="format-section">
-                    <h3>💬 Retroalimentación</h3>
+                    <h3>Retroalimentación</h3>
                     <ul>
                         <li>Profesionales del teatro ofrecen comentarios cálidos y recomendaciones constructivas a cada grupo</li>
                     </ul>
                 </div>
             </div>
-            <div class="slide-image-half empty" style="background: url('images/slide5.jpg') center/contain no-repeat #E0F2FE;"></div>
+            <div class="slide-image-half" style="background: url('images/slide5.jpg') center/contain no-repeat #E0F2FE;"></div>
         </div>
     </div>
 
-    <!-- СЛАЙД 6 -->
+    <!-- ===== SLIDE 6: Premios (Texto Izq + Foto Der) ===== -->
     <div class="slide-container">
-        <div class="slide slide-6 slide-with-image text-left">
-            <div class="slide-content">
+        <div class="slide-with-layout">
+            <div class="slide-text">
                 <h2>Premios y reconocimiento</h2>
+                
                 <div class="awards-grid">
                     <div class="award-box">
-                        <h3>🏅 Para el grupo</h3>
+                        <h3>Para el grupo</h3>
                         <p>Estatuilla del festival + Diploma</p>
                     </div>
+                    
                     <div class="award-box">
-                        <h3>📜 Para los participantes</h3>
+                        <h3>Para los participantes</h3>
                         <p>Certificados internacionales</p>
                     </div>
+                    
                     <div class="award-box">
-                        <h3>🎁 Adicional</h3>
+                        <h3>Adicional</h3>
                         <p>Entradas de teatro + Premios especiales</p>
                     </div>
                 </div>
             </div>
-            <div class="slide-image-half empty" style="background: url('images/slide6.jpg') center/contain no-repeat #E0F2FE;"></div>
+            <div class="slide-image-half" style="background: url('images/slide6.jpg') center/contain no-repeat #E0F2FE;"></div>
         </div>
     </div>
 
-    <!-- СЛАЙД 7 -->
+    <!-- ===== SLIDE 7: Condiciones (Foto Izq + Texto Der) ===== -->
     <div class="slide-container">
-        <div class="slide slide-7 slide-with-image text-right">
-            <div class="slide-content">
+        <div class="slide-with-layout" style="flex-direction: row-reverse;">
+            <div class="slide-text">
                 <h2>Condiciones y aportación</h2>
+                
                 <div class="conditions-box">
                     <p><strong>Edad:</strong> 6–18 años</p>
                     <p><strong>Repertorio:</strong> Sin restricciones</p>
                     <p><strong>Participación garantizada:</strong> Todos los grupos que abonan la cuota obtienen un espacio escénico</p>
                 </div>
+                
                 <div class="pricing-section">
-                    <h3>💰 Aportación organizativa</h3>
-                    <p><strong>45 €</strong> por participante</p>
-                    <p><strong>450 €</strong> para grupos de 10+</p>
-                    <p class="pricing-highlight">💡 Un día internacional en España por menos de lo que cuesta una entrada de teatro</p>
+                    <h3>Aportación organizativa</h3>
+                    <p>45 € por participante</p>
+                    <p>Grupos de 10+: 450 € total</p>
+                    <p class="pricing-highlight">Un día internacional en España por menos de lo que cuesta una entrada de teatro</p>
                 </div>
             </div>
-            <div class="slide-image-half empty" style="background: url('images/slide7.jpg') center/contain no-repeat #E0F2FE;"></div>
+            <div class="slide-image-half" style="background: url('images/slide7.jpg') center/contain no-repeat #E0F2FE;"></div>
         </div>
     </div>
 
-    <!-- СЛАЙД 8 -->
+    <!-- ===== SLIDE 8: Voces (Texto Izq + Foto Der) ===== -->
     <div class="slide-container">
-        <div class="slide slide-8 slide-with-image text-left">
-            <div class="slide-content">
+        <div class="slide-with-layout">
+            <div class="slide-text">
                 <h2>Voces del Festival 2025</h2>
+                
                 <div class="testimonial">
                     <p class="testimonial-author">Participante (13 años):</p>
                     <p class="testimonial-text">«El idioma no importa. En el escenario todos nos entendemos».</p>
                 </div>
+                
                 <div class="testimonial">
                     <p class="testimonial-author">Miembro del jurado:</p>
                     <p class="testimonial-text">«Valentía y sinceridad. Son los primeros pasos de los niños en el gran mundo del teatro».</p>
                 </div>
+                
                 <div class="testimonial">
                     <p class="testimonial-author">El alcalde de Lloret de Mar:</p>
                     <p class="testimonial-text">«Es un honor recibir a directores y niños de toda Europa. Apoyamos el arte que une».</p>
                 </div>
             </div>
-            <div class="slide-image-half empty" style="background: url('images/slide8.jpg') center/contain no-repeat #E0F2FE;"></div>
+            <div class="slide-image-half" style="background: url('images/slide8.jpg') center/contain no-repeat #E0F2FE;"></div>
         </div>
     </div>
 
-    <!-- СЛАЙД 9 -->
-    <div class="slide-container">
-        <div class="slide slide-9">
-            <h2 style="text-align: center; color: white; margin-bottom: 50px; width: 100%;">Organizadores y apoyo</h2>
-            <div class="organizers-grid">
-                <div class="organizer-box">
-                    <h3>🏛️ Generalitat de Cataluña</h3>
-                </div>
-                <div class="organizer-box">
-                    <h3>🤝 Asociación Casamiga</h3>
-                </div>
-                <div class="organizer-box">
-                    <h3>🎭 Teatro Municipal de Lloret de Mar</h3>
-                    <p>Escenario oficial del festival</p>
-                </div>
-                <div class="organizer-box">
-                    <h3>🏛️ Ayuntamiento de Lloret de Mar</h3>
-                </div>
+    <!-- ===== SLIDE 9: Organizadores ===== -->
+    <div class="slide-9">
+        <h2>Organizadores y apoyo</h2>
+        
+        <div class="organizers-grid">
+            <div class="organizer-box">
+                <img src="images/Generalitat.png" class="organizer-logo" alt="Generalitat">
+                <h3>Generalitat de Cataluña</h3>
+            </div>
+            
+            <div class="organizer-box">
+                <img src="images/Casamiga.png" class="organizer-logo" alt="Casamiga">
+                <h3>Asociación Casamiga</h3>
+            </div>
+            
+            <div class="organizer-box">
+                <img src="images/Teatro.png" class="organizer-logo" alt="Teatro">
+                <h3>Teatro Municipal de Lloret de Mar</h3>
+                <p>Escenario oficial del festival</p>
+            </div>
+            
+            <div class="organizer-box">
+                <img src="images/Ayuntamiento.png" class="organizer-logo" alt="Ayuntamiento">
+                <h3>Ayuntamiento de Lloret de
+ Mar</h3>
             </div>
         </div>
     </div>
 
-    <!-- СЛАЙД 10 -->
+    <!-- ===== SLIDE 10: ¿Todavía lo estás pensando? (Foto Izq + Texto Der) ===== -->
     <div class="slide-container">
-        <div class="slide slide-10 slide-with-image text-right">
-            <div class="slide-content">
+        <div class="slide-with-layout" style="flex-direction: row-reverse;">
+            <div class="slide-text slide-10">
                 <h2>¿Todavía lo estás pensando?</h2>
             </div>
-            <div class="slide-image-half empty" style="background: url('images/slide10.jpg') center/contain no-repeat #E0F2FE;"></div>
+            <div class="slide-image-half" style="background: url('images/slide10.jpg') center/contain no-repeat #E0F2FE;"></div>
         </div>
     </div>
 
-    <!-- СЛАЙД 11 -->
+    <!-- ===== SLIDE 11: ¡Únete! ===== -->
     <div class="slide-container">
-        <div class="slide slide-11">
+        <div class="slide-11">
             <h1>¡Únete!</h1>
-            <p class="tagline">Regала a los niños una experiencia que recordarán toda la vida</p>
+            <p class="tagline">Regala a los niños una experiencia que recordarán toda la vida</p>
+            
             <div class="contact-section">
                 <h3>Contacta con nosotros</h3>
+                
                 <div class="contact-info">
                     <p><strong>Asociación CASAMIGA</strong></p>
                 </div>
+                
                 <div class="contact-info">
                     <p>📞 <a href="tel:+34698999033">+34 698 999 033</a> (WhatsApp, Telegram)</p>
                 </div>
+                
                 <div class="contact-info">
                     <p>📧 <a href="mailto:info@casamiga.eu">info@casamiga.eu</a></p>
                 </div>
+                
                 <div class="contact-info">
                     <p>📱 <a href="https://www.instagram.com/teatro_sinfronteras_festival" target="_blank">@teatro_sinfronteras_festival</a></p>
                 </div>
@@ -604,7 +872,7 @@
         </div>
     </div>
 
-    <!-- Navigation -->
+    <!-- ===== Navigation ===== -->
     <div class="nav-buttons">
         <button class="nav-btn" id="prev-btn" onclick="previousSlide()">← Anterior</button>
         <button class="nav-btn" id="next-btn" onclick="nextSlide()">Siguiente →</button>
@@ -616,18 +884,21 @@
 
         function showSlide(n) {
             const containers = document.querySelectorAll('.slide-container');
+            
             if (n > totalSlides) currentSlide = totalSlides;
             if (n < 1) currentSlide = 1;
-            containers.forEach(container => container.classList.remove('active'));
+            
+            containers.forEach(container => {
+                container.classList.remove('active');
+            });
+            
             containers[currentSlide - 1].classList.add('active');
+            
             document.getElementById('current-slide').textContent = currentSlide;
             document.getElementById('prev-btn').disabled = currentSlide === 1;
             document.getElementById('next-btn').disabled = currentSlide === totalSlides;
-
-            const activeContainer = containers[currentSlide - 1];
-            if (activeContainer) {
-                activeContainer.scrollTop = 0;
-            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function nextSlide() {
@@ -644,28 +915,35 @@
             }
         }
 
+        // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight') nextSlide();
             if (e.key === 'ArrowLeft') previousSlide();
         });
 
+        // Touch/Swipe navigation
         let touchStartX = 0;
         let touchEndX = 0;
 
-        document.addEventListener('touchstart', e => {
+        document.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
-        });
+        }, false);
 
-        document.addEventListener('touchend', e => {
+        document.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
             handleSwipe();
-        });
+        }, false);
 
         function handleSwipe() {
-            if (touchEndX < touchStartX - 50) nextSlide();
-            if (touchEndX > touchStartX + 50) previousSlide();
+            if (touchStartX - touchEndX > 50) {
+                nextSlide();
+            }
+            if (touchEndX - touchStartX > 50) {
+                previousSlide();
+            }
         }
 
+        // Initialize
         showSlide(currentSlide);
     </script>
 </body>
