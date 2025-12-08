@@ -25,7 +25,6 @@
             height: 100vh; 
             display: none; 
             overflow: auto;
-            flex-shrink: 0;
         }
         .slide-container.active { display: block; }
 
@@ -34,8 +33,6 @@
             height: 100vh; 
             padding: 60px 80px; 
             position: relative; 
-            background-size: cover; 
-            background-position: center; 
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -47,7 +44,6 @@
             color: white; 
             text-align: center; 
             align-items: center; 
-            justify-content: center;
         }
         .logo-row { display: flex; justify-content: center; align-items: center; gap: 30px; margin-bottom: 40px; }
         .slide-1 h1 { font-size: 64px; font-weight: bold; margin-bottom: 20px; letter-spacing: 3px; }
@@ -61,7 +57,6 @@
             padding: 0 !important; 
             width: 100%;
             height: 100vh;
-            position: relative;
         }
         .slide-with-image.text-left { flex-direction: row; }
         .slide-with-image.text-right { flex-direction: row-reverse; }
@@ -77,18 +72,17 @@
             height: 100vh;
         }
 
-        /* ИСПРАВЛЕННОЕ МАСШТАБИРОВАНИЕ ФОТО */
+        /* ФОТО - фон для пустых слайдов */
         .slide-image-half { 
             flex: 1; 
-            background-size: contain;  /* Показывает ВСЁ фото целиком */
-            background-position: center; 
-            background-repeat: no-repeat;  /* Без повторений */
-            background-color: #E0F2FE;  /* Голубой фон для пустых областей */
             height: 100vh;
+            width: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
+
         .slide-image-half.empty { 
             background: linear-gradient(135deg, #E0F2FE 0%, #BEE3F8 100%);
             color: #0369A1;
@@ -240,6 +234,7 @@
             .slide-image-half { 
                 height: 50vh; 
                 min-height: 300px;
+                width: 100%;
             }
             .slide-1 h1 { font-size: 36px !important; }
             h2 { font-size: 32px !important; }
@@ -285,7 +280,7 @@
                     <p>Instagram 👉 <a href="https://www.instagram.com/teatro_sinfronteras_festival" target="_blank">@teatro_sinfronteras_festival</a></p>
                 </div>
             </div>
-            <div class="slide-image-half empty" style="background-image: url('images/slide2.jpg');"></div>
+            <div class="slide-image-half empty" style="background: url('images/slide2.jpg') center/contain no-repeat #E0F2FE;"></div>
         </div>
     </div>
 
@@ -317,7 +312,7 @@
                 </div>
                 <p class="motto">✨ El arte borra fronteras ✨</p>
             </div>
-            <div class="slide-image-half empty" style="background-image: url('images/slide3.jpg');"></div>
+            <div class="slide-image-half empty" style="background: url('images/slide3.jpg') center/contain no-repeat #E0F2FE;"></div>
         </div>
     </div>
 
@@ -346,7 +341,7 @@
                     <p>Aforo completo para cada actuación</p>
                 </div>
             </div>
-            <div class="slide-image-half empty" style="background-image: url('images/slide4.jpg');"></div>
+            <div class="slide-image-half empty" style="background: url('images/slide4.jpg') center/contain no-repeat #E0F2FE;"></div>
         </div>
     </div>
 
@@ -370,7 +365,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="slide-image-half empty" style="background-image: url('images/slide5.jpg');"></div>
+            <div class="slide-image-half empty" style="background: url('images/slide5.jpg') center/contain no-repeat #E0F2FE;"></div>
         </div>
     </div>
 
@@ -393,7 +388,7 @@
                     </div>
                 </div>
             </div>
-            <div class="slide-image-half empty" style="background-image: url('images/slide6.jpg');"></div>
+            <div class="slide-image-half empty" style="background: url('images/slide6.jpg') center/contain no-repeat #E0F2FE;"></div>
         </div>
     </div>
 
@@ -413,7 +408,7 @@
                     <p class="pricing-highlight">💡 Un día internacional en España por menos de lo que cuesta una entrada de teatro</p>
                 </div>
             </div>
-            <div class="slide-image-half empty" style="background-image: url('images/slide7.jpg');"></div>
+            <div class="slide-image-half empty" style="background: url('images/slide7.jpg') center/contain no-repeat #E0F2FE;"></div>
         </div>
     </div>
 
@@ -434,7 +429,7 @@
                     <p class="testimonial-text">«Es un honor recibir a directores y niños de toda Europa. Apoyamos el arte que une».</p>
                 </div>
             </div>
-            <div class="slide-image-half empty" style="background-image: url('images/slide8.jpg');"></div>
+            <div class="slide-image-half empty" style="background: url('images/slide8.jpg') center/contain no-repeat #E0F2FE;"></div>
         </div>
     </div>
 
@@ -464,7 +459,7 @@
             <div class="slide-content">
                 <h2>¿Todavía lo estás pensando?</h2>
             </div>
-            <div class="slide-image-half empty" style="background-image: url('images/slide10.jpg');"></div>
+            <div class="slide-image-half empty" style="background: url('images/slide10.jpg') center/contain no-repeat #E0F2FE;"></div>
         </div>
     </div>
 
