@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teatro Sin Fronteras 2026</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Calibri', 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; }
+        .slide-container { width: 100%; max-width: 1400px; margin: 20px auto; background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.15); overflow: hidden; display: none; }
+        .slide-container.active { display: block; }
+        .slide { min-height: 700px; padding: 60px 80px; position: relative; background-size: cover; background-position: center; }
+
+        /* Slide 1 - Title */
+        .slide-1 { background: linear-gradient(135deg, rgba(30,58,95,0.95) 0%, rgba(44,82,130,0.95) 100%); color: white; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .logo-row { display: flex; justify-content: center; align-items: center; gap: 30px; margin-bottom: 40px; }
+        .logo-img { height: 80px; width: auto; object-fit: contain; background: white; padding: 10px; border-radius: 8px; }
+        .slide-1 h1 { font-size: 64px; font-weight: bold; margin-bottom: 20px; letter-spacing: 3px; }
+        .slide-1 .subtitle { font-size: 32px; font-weight: 300; margin-bottom: 50px; font-style: italic; }
+        .slide-1 .festival-info { font-size: 20px; margin: 10px 0; }
+        .slide-1 .tagline { font-size: 22px; font-style: italic; margin-top: 40px; opacity: 0.9; }
+
+        /* Slides with text + image layout */
+        .slide-with-image { display: flex; align-items: stretch; padding: 0 !important; min-height: 700px; }
+        .slide-with-image.text-left { flex-direction: row; }
+        .slide-with-image.text-right { flex-direction: row-reverse; }
+        .slide-content { flex: 1; padding: 60px 80px; display: flex; flex-direction: column; justify-content: center; background: white; }
+        .slide-image-half { flex: 1; background-size: cover; background-position: center; min-height: 700px; }
+        .slide-image-half.empty { background: linear-gradient(135deg, #E0F2FE 0%, #BEE3F8 100%); }
+
+        /* Slide 9 - Organizers (full width) */
+        .slide-9 { background: linear-gradient(135deg, rgba(30,58,95,0.95) 0%, rgba(44,82,130,0.95) 100%); color: white; }
+
+        /* Slide 11 - Contact (full width) */
+        .slide-11 { background: linear-gradient(135deg, rgba(30,58,95,0.95) 0%, rgba(44,82,130,0.95) 100%); color: white; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .slide-11 h1 { font-size: 64px; margin-bottom: 30px; font-weight: bold; }
+        .slide-11 .tagline { font-size: 24px; margin-bottom: 50px; }
+
+        h2 { font-size: 48px; color: #0EA5E9; margin-bottom: 30px; font-weight: bold; }
+        h3 { font-size: 22px; color: #0EA5E9; margin-bottom: 8px; font-weight: bold; }
+        .description-box { background: #E0F2FE; padding: 25px; border-radius: 8px; margin-bottom: 35px; border-left: 5px solid #0EA5E9; }
+        .description-box p, .stats-list { font-size: 18px; color: #0369A1; line-height: 1.8; }
+        .stats-list strong { color: #0EA5E9; font-size: 20px; }
+        .instagram-link { margin-top: 30px; font-size: 18px; color: #0369A1; font-style: italic; }
+        .instagram-link a { color: #0EA5E9; text-decoration: none; font-weight: bold; }
+
+        .reason-item { margin-bottom: 25px; }
+        .reason-item h3 { font-size: 22px; color: #0EA5E9; margin-bottom: 8px; font-weight: bold; }
+        .reason-item p { font-size: 18px; color: #0369A1; padding-left: 20px; }
+        .motto { text-align: center; font-size: 28px; color: #0EA5E9; font-style: italic; margin-top: 40px; font-weight: bold; }
+
+        .news-item { margin-bottom: 25px; }
+        .news-item h3 { font-size: 22px; color: #0EA5E9; margin-bottom: 10px; font-weight: bold; }
+        .news-item p { font-size: 18px; color: #0369A1; line-height: 1.8; }
+
+        .format-section { margin-bottom: 40px; }
+        .format-section h3 { font-size: 28px; color: #0EA5E9; margin-bottom: 15px; font-weight: bold; }
+        .format-section ul { list-style: none; padding: 0; }
+        .format-section li { font-size: 18px; color: #0369A1; padding: 8px 0 8px 20px; position: relative; }
+        .format-section li:before { content: "• "; position: absolute; left: 0; color: #0EA5E9; font-weight: bold; }
+
+        .awards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .award-box { text-align: center; padding: 30px; background: #E0F2FE; border-radius: 8px; border-top: 4px solid #0EA5E9; }
+        .award-box h3 { font-size: 22px; color: #0EA5E9; margin-bottom: 15px; font-weight: bold; }
+        .award-box p { font-size: 18px; color: #0369A1; }
+
+        .conditions-box { background: #E0F2FE; padding: 30px; border-radius: 8px; border-left: 5px solid #0EA5E9; margin-bottom: 30px; }
+        .conditions-box p { font-size: 18px; color: #0369A1; line-height: 2; }
+        .conditions-box strong { color: #0EA5E9; font-size: 20px; }
+
+        .pricing-section { margin-top: 30px; }
+        .pricing-section h3 { font-size: 28px; color: #0EA5E9; margin-bottom: 15px; font-weight: bold; }
+        .pricing-section p { font-size: 20px; color: #0369A1; line-height: 1.8; }
+        .pricing-highlight { font-style: italic; margin-top: 20px; font-size: 18px; }
+
+        .testimonial { margin-bottom: 30px; padding: 20px; background: #E0F2FE; border-left: 5px solid #0EA5E9; border-radius: 4px; }
+        .testimonial-author { font-size: 18px; color: #0EA5E9; font-style: italic; margin-bottom: 10px; font-weight: bold; }
+        .testimonial-text { font-size: 18px; color: #0369A1; font-style: italic; line-height: 1.8; }
+
+        .organizers-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+        .organizer-box { background: rgba(255,255,255,0.15); padding: 30px; border-radius: 8px; text-align: center; border: 2px solid rgba(255,255,255,0.3); }
+        .organizer-box h3 { font-size: 24px; margin-bottom: 10px; font-weight: bold; color: white; }
+        .organizer-box p { font-size: 16px; opacity: 0.9; color: white; }
+
+        /* Slide 10 */
+        .slide-10 { background: white; display: flex; justify-content: center; align-items: center; }
+        .slide-10 h2 { font-size: 56px; color: #0EA5E9; font-weight: bold; text-align: center; }
+
+        .contact-section h3 { font-size: 32px; margin-bottom: 30px; font-weight: bold; }
+        .contact-info { font-size: 20px; margin: 15px 0; line-height: 2; }
+        .contact-info a { color: white; text-decoration: none; border-bottom: 2px solid white; }
+
+        .nav-buttons { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 15px; z-index: 1000; background: rgba(255,255,255,0.95); padding: 15px 25px; border-radius: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+        .nav-btn { background: #0EA5E9; color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-size: 16px; font-weight: bold; transition: all 0.3s; }
+        .nav-btn:hover { background: #0369A1; transform: translateY(-2px); }
+        .nav-btn:disabled { background: #94a3b8; cursor: not-allowed; transform: none; }
+
+        .slide-counter { position: fixed; top: 30px; right: 30px; background: #0EA5E9; color: white; padding: 12px 25px; border-radius: 25px; font-weight: bold; z-index: 1000; font-size: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+
+        @media (max-width: 768px) {
+            .slide { padding: 40px 30px; min-height: 600px; }
+            .slide-with-image { flex-direction: column !important; }
+            .slide-content { padding: 40px 30px; }
+            .slide-image-half { min-height: 400px; }
+            h1 { font-size: 36px !important; }
+            h2 { font-size: 32px !important; }
+            .awards-grid, .organizers-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-counter"><span id="current-slide">1</span> / <span id="total-slides">11</span></div>
+
+    <!-- Slide 1: Title -->
+    <div class="slide-container active">
+        <div class="slide slide-1">
+            <div class="logo-row">
+                <div style="background: white; padding: 15px 30px; border-radius: 8px; font-size: 24px; font-weight: bold; color: #0EA5E9;">🎭 CASAMIGA TEATRO</div>
+            </div>
+            <h1>TEATRO SIN FRONTERAS</h1>
+            <p class="subtitle">Uniendo el mundo a través del teatro</p>
+            <div class="festival-info">
+                <p style="font-style: italic; font-size: 24px;">Festival Internacional de Teatro Infantil</p>
+                <p style="margin-top: 20px;">📅 1 de marzo de 2026</p>
+                <p>Teatro Municipal de Lloret de Mar, España</p>
+            </div>
+            <p class="tagline">Vuestro grupo en el escenario internacional de Europa</p>
+        </div>
+    </div>
+
+    <!-- Slide 2: Sobre el Festival (text-left, image-right) -->
+    <div class="slide-container">
+        <div class="slide slide-2 slide-with-image text-left">
+            <div class="slide-content">
+                <h2>Sobre el Festival</h2>
+                <div class="description-box">
+                    <p>Una celebración internacional del teatro que reúne a niños y adolescentes de 6–18 años de diferentes países y culturas</p>
+                </div>
+                <div class="stats-list">
+                    <p><strong>2025:</strong> Primer Festival: 10 grupos, 5 idiomas, 400 espectadores, 8 categorías</p>
+                    <p><strong>2026:</strong> Se esperan 6 países y 8 idiomas</p>
+                    <p><strong>Valores:</strong> Inclusividad, diversidad lingüística, intercambio cultural</p>
+                </div>
+                <div class="instagram-link">
+                    <p>Instagram 👉 <a href="https://www.instagram.com/teatro_sinfronteras_festival" target="_blank">@teatro_sinfronteras_festival</a></p>
+                </div>
+            </div>
+            <div class="slide-image-half empty" style="background-image: url('images/slide2.jpg');"></div>
+        </div>
+    </div>
+
+    <!-- Slide 3: ¿Por qué participar? (text-right, image-left) -->
+    <div class="slide-container">
+        <div class="slide slide-3 slide-with-image text-right">
+            <div class="slide-content">
+                <h2>¿Por qué participar?</h2>
+                <div class="reasons-list">
+                    <div class="reason-item">
+                        <h3>🌍 Experiencia internacional:</h3>
+                        <p>Un escenario multicultural, público real, sin barreras lingüísticas</p>
+                    </div>
+                    <div class="reason-item">
+                        <h3>🏆 Prestigio para vuestro centro:</h3>
+                        <p>Actuar en un festival internacional de prestigio</p>
+                    </div>
+                    <div class="reason-item">
+                        <h3>🤝 Intercambio cultural:</h3>
+                        <p>Encuentros con grupos de 6 países europeos</p>
+                    </div>
+                    <div class="reason-item">
+                        <h3>💚 Atmósfera de apoyo:</h3>
+                        <p>Un festival de colaboración, no de competencia feroz</p>
+                    </div>
+                    <div class="reason-item">
+                        <h3>🎖️ Reconocimientos:</h3>
+                        <p>Estatuillas, diplomas, certificados internacionales y un Gran Premio con dotación económica</p>
+                    </div>
+                </div>
+                <p class="motto">✨ El arte borra fronteras ✨</p>
+            </div>
+            <div class="slide-image-half empty" style="background-image: url('images/slide3.jpg');"></div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Novedades 2026 (text-left, image-right) -->
+    <div class="slide-container">
+        <div class="slide slide-4 slide-with-image text-left">
+            <div class="slide-content">
+                <h2>Novedades 2026</h2>
+                <div class="news-item">
+                    <h3>📅 Por edades:</h3>
+                    <p>10:00–14:00 (6–11 años) y 16:00–20:00 (12–18 años)</p>
+                </div>
+                <div class="news-item">
+                    <h3>👨‍⚖️ Jurado:</h3>
+                    <p>Actores profesionales, directores, pedagogos y expertos teatrales</p>
+                </div>
+                <div class="news-item">
+                    <h3>🎭 Nuevos premios:</h3>
+                    <p>Reconocimientos para diferentes géneros teatrales</p>
+                </div>
+                <div class="news-item">
+                    <h3>📺 Cobertura mediática:</h3>
+                    <p>TV local y prensa de la región</p>
+                </div>
+                <div class="news-item">
+                    <h3>🎫 Entrada gratuita:</h3>
+                    <p>Aforo completo para cada actuación</p>
+                </div>
+            </div>
+            <div class="slide-image-half empty" style="background-image: url('images/slide4.jpg');"></div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Formato (text-right, image-left) -->
+    <div class="slide-container">
+        <div class="slide slide-5 slide-with-image text-right">
+            <div class="slide-content">
+                <h2>Formato de participación</h2>
+                <div class="format-section">
+                    <h3>🎬 El espectáculo</h3>
+                    <ul>
+                        <li>Duración: 10–15 minutos</li>
+                        <li>Montaje: hasta 10 minutos</li>
+                        <li>Descripción de la obra (breve)</li>
+                        <li>Cualquier idioma es bienvenido</li>
+                    </ul>
+                </div>
+                <div class="format-section">
+                    <h3>💬 Retroalimentación</h3>
+                    <ul>
+                        <li>Profesionales del teatro ofrecen comentarios cálidos y recomendaciones constructivas a cada grupo</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slide-image-half empty" style="background-image: url('images/slide5.jpg');"></div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Premios (text-left, image-right) -->
+    <div class="slide-container">
+        <div class="slide slide-6 slide-with-image text-left">
+            <div class="slide-content">
+                <h2>Premios y reconocimiento</h2>
+                <div class="awards-grid">
+                    <div class="award-box">
+                        <h3>🏅 Para el grupo</h3>
+                        <p>Estatuilla del festival + Diploma</p>
+                    </div>
+                    <div class="award-box">
+                        <h3>📜 Para los participantes</h3>
+                        <p>Certificados internacionales</p>
+                    </div>
+                    <div class="award-box">
+                        <h3>🎁 Adicional</h3>
+                        <p>Entradas de teatro + Premios especiales</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-image-half empty" style="background-image: url('images/slide6.jpg');"></div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Condiciones (text-right, image-left) -->
+    <div class="slide-container">
+        <div class="slide slide-7 slide-with-image text-right">
+            <div class="slide-content">
+                <h2>Condiciones y aportación</h2>
+                <div class="conditions-box">
+                    <p><strong>Edad:</strong> 6–18 años</p>
+                    <p><strong>Repertorio:</strong> Sin restricciones</p>
+                    <p><strong>Participación garantizada:</strong> Todos los grupos que abonan la cuota obtienen un espacio escénico</p>
+                </div>
+                <div class="pricing-section">
+                    <h3>💰 Aportación organizativa</h3>
+                    <p><strong>45 €</strong> por participante</p>
+                    <p><strong>450 €</strong> para grupos de 10+</p>
+                    <p class="pricing-highlight">💡 Un día internacional en España por menos de lo que cuesta una entrada de teatro</p>
+                </div>
+            </div>
+            <div class="slide-image-half empty" style="background-image: url('images/slide7.jpg');"></div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Testimonios (text-left, image-right) -->
+    <div class="slide-container">
+        <div class="slide slide-8 slide-with-image text-left">
+            <div class="slide-content">
+                <h2>Voces del Festival 2025</h2>
+                <div class="testimonial">
+                    <p class="testimonial-author">Participante (13 años):</p>
+                    <p class="testimonial-text">«El idioma no importa. En el escenario todos nos entendemos».</p>
+                </div>
+                <div class="testimonial">
+                    <p class="testimonial-author">Miembro del jurado:</p>
+                    <p class="testimonial-text">«Valentía y sinceridad. Son los primeros pasos de los niños en el gran mundo del teatro».</p>
+                </div>
+                <div class="testimonial">
+                    <p class="testimonial-author">El alcalde de Lloret de Mar:</p>
+                    <p class="testimonial-text">«Es un honor recibir a directores y niños de toda Europa. Apoyamos el arte que une».</p>
+                </div>
+            </div>
+            <div class="slide-image-half empty" style="background-image: url('images/slide8.jpg');"></div>
+        </div>
+    </div>
+
+    <!-- Slide 9: Organizadores (full width) -->
+    <div class="slide-container">
+        <div class="slide slide-9">
+            <h2 style="text-align: center; color: white; margin-bottom: 50px;">Organizadores y apoyo</h2>
+            <div class="organizers-grid">
+                <div class="organizer-box">
+                    <h3>🏛️ Generalitat de Cataluña</h3>
+                </div>
+                <div class="organizer-box">
+                    <h3>🤝 Asociación Casamiga</h3>
+                </div>
+                <div class="organizer-box">
+                    <h3>🎭 Teatro Municipal de Lloret de Mar</h3>
+                    <p>Escenario oficial del festival</p>
+                </div>
+                <div class="organizer-box">
+                    <h3>🏛️ Ayuntamiento de Lloret de Mar</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Call to think (text-right, image-left) -->
+    <div class="slide-container">
+        <div class="slide slide-10 slide-with-image text-right">
+            <div class="slide-content">
+                <h2>¿Todavía lo estás pensando?</h2>
+            </div>
+            <div class="slide-image-half empty" style="background-image: url('images/slide10.jpg');"></div>
+        </div>
+    </div>
+
+    <!-- Slide 11: Contact -->
+    <div class="slide-container">
+        <div class="slide slide-11">
+            <h1>¡Únete!</h1>
+            <p class="tagline">Regala a los niños una experiencia que recordarán toda la vida</p>
+            <div class="contact-section">
+                <h3>Contacta con nosotros</h3>
+                <div class="contact-info">
+                    <p><strong>Asociación CASAMIGA</strong></p>
+                </div>
+                <div class="contact-info">
+                    <p>📞 <a href="tel:+34698999033">+34 698 999 033</a> (WhatsApp, Telegram)</p>
+                </div>
+                <div class="contact-info">
+                    <p>📧 <a href="mailto:info@casamiga.eu">info@casamiga.eu</a></p>
+                </div>
+                <div class="contact-info">
+                    <p>📱 <a href="https://www.instagram.com/teatro_sinfronteras_festival" target="_blank">@teatro_sinfronteras_festival</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prev-btn" onclick="previousSlide()">← Anterior</button>
+        <button class="nav-btn" id="next-btn" onclick="nextSlide()">Siguiente →</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 11;
+
+        function showSlide(n) {
+            const containers = document.querySelectorAll('.slide-container');
+            if (n > totalSlides) currentSlide = totalSlides;
+            if (n < 1) currentSlide = 1;
+            containers.forEach(container => container.classList.remove('active'));
+            containers[currentSlide - 1].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide;
+            document.getElementById('prev-btn').disabled = currentSlide === 1;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
