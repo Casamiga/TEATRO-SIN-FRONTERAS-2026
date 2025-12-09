@@ -252,7 +252,7 @@
         }
 
         .slide-11 .tagline {
-            font-size: 24px;
+            font-size: clamp(28px, 5vw, 36px); /* ← Увеличено с 24px */
             margin-bottom: 50px;
         }
 
@@ -260,6 +260,7 @@
             font-size: clamp(28px, 3vw, 32px);
             margin-bottom: 30px;
             font-weight: bold;
+            color: #FFE5B4; /* ← Новый цвет: светло-бежевый, контрастный */
         }
 
         .contact-info {
@@ -940,7 +941,7 @@
                 <h3>Contacta con nosotros</h3>
                 
                 <div class="contact-info">
-                    <p><strong>Asociación CASAMIGA</strong></p>
+                    <p style="font-size: clamp(20px, 2.5vw, 28px);"><strong>Asociación CASAMIGA</strong></p>
                 </div>
                 
                 <div class="contact-info">
