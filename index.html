@@ -519,10 +519,11 @@
             display: flex;
             gap: 15px;
             z-index: 1000;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 15px 25px;
+            background: transparent; /* ← Убрал белый фон */
+            padding: 8px 12px; /* ← Уменьшил отступ */
             border-radius: 50px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border: 2px solid #00A8E8; /* ← Добавил тоненький контур */
+            box-shadow: none; /* ← Убрал тень */
         }
 
         .nav-btn {
@@ -656,7 +657,7 @@
                 font-size: 14px;
             }
             .slide {
-                padding-bottom: 120px !important;
+                padding-bottom: 110px !important;
            }
   
           .nav-buttons {
