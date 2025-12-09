@@ -93,7 +93,7 @@
         }
 
         .slide-1-center .subtitle {
-            font-size: 28px;
+            font-size: clamp(32px, 5vw, 42px); /* ← автоматически масштабируется */
             font-weight: 300;
             margin-bottom: 40px;
             font-style: italic;
@@ -101,13 +101,13 @@
         }
 
         .slide-1-center .festival-info {
-            font-size: 18px;
+            font-size: clamp(20px, 3vw, 28px); /* ← автоматически масштабируется */
             margin: 8px 0;
             line-height: 1.4;
         }
 
         .slide-1-center .tagline {
-            font-size: 20px;
+            font-size: clamp(24px, 4vw, 32px); /* ← автоматически масштабируется */
             font-style: italic;
             margin-top: 35px;
             opacity: 0.95;
